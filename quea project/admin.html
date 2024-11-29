@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #1A1A1D;
+      color: white;
+    }
+    button {
+      padding: 5px 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel</h1>
+  
+  <form id="admin-form">
+    <label for="imageUrl">URL Gambar:</label>
+    <input type="text" id="imageUrl" placeholder="Masukkan URL gambar">
+    
+    <label for="title">Judul:</label>
+    <input type="text" id="title" placeholder="Masukkan judul">
+    
+    <label for="description">Deskripsi:</label>
+    <input type="text" id="description" placeholder="Masukkan deskripsi">
+    
+    <button type="button" id="add-admin-object">Tambahkan</button>
+  </form>
+  
+  <table id="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Gambar</th>
+        <th>Judul</th>
+        <th>Deskripsi</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data akan dimasukkan di sini -->
+    </tbody>
+  </table>
+
+  <script src="scrip.js"></script>
+</body>
+</html>
