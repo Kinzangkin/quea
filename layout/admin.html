@@ -1,0 +1,131 @@
+<html>
+  <head>
+
+    <link rel="stylesheet" href="../style/admin.css">
+  </head>
+  <body>
+
+    <nav>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="#">Download</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="login.html">Account</a></li>
+        <li><a href="#">Partner</a></li>
+      </ul>
+    </nav>
+
+    <!-- Tabel untuk mengisi data -->
+<form id="upload-form" class="form">
+  <label for="title">Judul</label>
+  <div class="cut"></div>
+  <input type="text" id="title" name="title" required>
+
+  <label for="description">Deskripsi</label>
+  <div class="cut"></div>
+  <input type="text" id="description" name="description" required>
+
+  <label for="file_link">Link Media</label>
+  <div class="cut"></div>
+  <input type="text" id="file_link" name="file_link" required>
+
+  <label for="thumbnail">Thumbnail</label>
+  <div class="cut"></div>
+  <input type="text" id="thumbnail" name="thumbnail" required><br>
+
+  <input type="submit" value="Submit"><br>
+</form>
+
+<br>
+
+<h1>Media Table</h1>
+
+<!-- Tabel untuk menampilkan data -->
+<table id="media-table" class="tabel">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>File Link</th>
+      <th>Thumbnail</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Data akan dimasukkan di sini menggunakan JavaScript -->
+  </tbody>
+</table>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  fetchData();
+});
+
+// Fungsi untuk mengambil data dan menampilkan di tabel
+function fetchData() {
+  fetch("http://localhost:3000/media")
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.querySelector("#media-table tbody");
+      tableBody.innerHTML = "";
+
+      data.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.id}</td>
+          <td>${item.title}</td>
+          <td>${item.description}</td>
+          <td><a href="${item.file_link}" target="_blank">Download</a></td>
+          <td><img src="${item.thumbnail}" alt="Thumbnail" width="50"></td>
+          <td><button onclick="deleteMedia(${item.id})">Hapus</button></td> 
+        `;
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => console.error("Error fetching data:", error));
+}
+
+// Fungsi untuk menambahkan data
+document.getElementById("upload-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const file_link = document.getElementById("file_link").value;
+  const thumbnail = document.getElementById("thumbnail").value;
+
+  fetch("http://localhost:3000/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ title, description, file_link, thumbnail }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message);
+    document.getElementById("upload-form").reset();
+    fetchData();
+  })
+  .catch(error => console.error("Error submitting data:", error));
+});
+
+// Fungsi untuk menghapus data
+function deleteMedia(id) {
+  if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+    fetch(`http://localhost:3000/media/${id}`, {
+      method: "DELETE",
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      fetchData();
+    })
+    .catch(error => console.error("Error deleting data:", error));
+  }
+}
+</script>
+
+  </body>
+</html>
