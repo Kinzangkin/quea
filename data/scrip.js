@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Fungsi untuk mengambil data dari server dan menampilkannya di index.html
 function fetchData() {
-  fetch("http://localhost:3000/media")
+  fetch("https://quea-project.vercel.app/media") // Update dengan URL Vercel
     .then(response => response.json())
     .then(data => {
       const container = document.querySelector(".container");
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (query === '') return;
 
     try {
-      const response = await fetch(`http://localhost:3000/search?q=${query}`);
+      const response = await fetch(`https://quea-project.vercel.app/search?q=${query}`); // Update dengan URL Vercel
       const results = await response.json();
 
       if (results.length === 0) {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const query = searchInput.value.trim();
     if (query === "") return;
 
-    fetch(`http://localhost:3000/search?q=${query}`)
+    fetch(`https://quea-project.vercel.app/search?q=${query}`) // Update dengan URL Vercel
       .then((response) => response.json())
       .then((results) => {
         if (results.length === 0) {
