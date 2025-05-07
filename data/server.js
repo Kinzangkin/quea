@@ -8,16 +8,18 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 
-// Setup koneksi ke database MySQL
+require('dotenv').config();
+
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'angkin#18',
-  database: 'quea_db',
-  port: 3307
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
+
 
 // Koneksi ke database
 db.connect((err) => {
@@ -25,7 +27,7 @@ db.connect((err) => {
     console.error('Database connection error:', err.stack);
     return;
   }
-  console.log('Connected to database');
+  console.log('Connected to local MySQL database');
 });
 
 // Serve HTML file (admin.html)
@@ -98,4 +100,9 @@ app.get('/search', (req, res) => {
     }
     res.json(results);
   });
+});
+
+// Jalankan server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
